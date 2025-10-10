@@ -1,16 +1,31 @@
-# React + Vite
+---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Smart Shopping Cart – Scan Interface Component
 
-Currently, two official plugins are available:
+## Overview
+This section documents the Scan Interface UI component developed as part of the Smart Shopping Cart project.  
+It is a UI-only React component that simulates product scanning, displays scanned products, and shows alert messages (without hardware logic).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Component Location
+`src/Component/ScanInterface.jsx`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Usage Instructions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Make sure Tailwind CSS is properly set up in your Vite React project.
+2. Import and use the component inside `App.jsx`:
+   ```javascript
+   import ScanInterface from './Component/ScanInterface';
+
+   function App() {
+     return (
+       <div>
+         <ScanInterface />
+       </div>
+     );
+   }
+
+   export default App;
