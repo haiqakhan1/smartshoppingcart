@@ -1,31 +1,63 @@
----
+# Smart Shopping Cart
 
-# Smart Shopping Cart – Scan Interface Component
+A smart shopping cart system that enables customers to scan items using barcode/RFID, view real-time totals, and receive AI-powered recommendations while helping retailers manage inventory efficiently.
 
-## Overview
-This section documents the Scan Interface UI component developed as part of the Smart Shopping Cart project.  
-It is a UI-only React component that simulates product scanning, displays scanned products, and shows alert messages (without hardware logic).
+## Features (Sprint 1)
 
----
+- Barcode/RFID scanning functionality
+- Product detail retrieval from database
+- Invalid barcode error handling
+- Basic cart management
 
-## Component Location
-`src/Component/ScanInterface.jsx`
+## Tech Stack
 
----
+**Frontend:** React.js, HTML5, CSS3  
+**Backend:** ASP.NET Core, C#  
+**Database:** SQL Server / MySQL
 
-## Usage Instructions
+## Setup
 
-1. Make sure Tailwind CSS is properly set up in your Vite React project.
-2. Import and use the component inside `App.jsx`:
-   ```javascript
-   import ScanInterface from './Component/ScanInterface';
+### Prerequisites
+- Node.js (v16+)
+- .NET SDK (v6.0+)
+- SQL Server or MySQL
 
-   function App() {
-     return (
-       <div>
-         <ScanInterface />
-       </div>
-     );
-   }
+### Installation
 
-   export default App;
+```bash
+# Clone repository
+git clone https://github.com/haiqakhan1/smartshoppingcart.git
+cd smartshoppingcart
+
+# Frontend setup
+cd frontend
+npm install
+npm start
+# Runs on http://localhost:5173
+
+# Backend setup (new terminal)
+cd backend
+dotnet restore
+dotnet run
+# Runs on http://localhost:7005
+```
+
+### Database Setup
+
+Create database and run migration scripts from `/database/migrations` folder.
+
+Create `.env` file in backend directory:
+```env
+DATABASE_CONNECTION_STRING=your_connection_string
+API_PORT=7005
+```
+
+## Testing
+
+```bash
+# Frontend
+cd frontend && npm test
+
+# Backend
+cd backend && dotnet test
+```
