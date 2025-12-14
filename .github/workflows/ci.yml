@@ -51,11 +51,7 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: |
-          cd SmartCart
-          npm ci
+        run: npm ci
       
       - name: Build frontend
-        run: |
-          cd SmartCart
-          npm run build
+        run: npm run build
