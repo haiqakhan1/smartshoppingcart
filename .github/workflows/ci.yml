@@ -18,22 +18,19 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '8.0.x'  # Changed from 6.0 to 8.0
       
       - name: Restore dependencies
-        run: |
-          cd Backend/SmartShoppingCart
-          dotnet restore
+        working-directory: ./SmartShop  # Changed path
+        run: dotnet restore
       
       - name: Build backend
-        run: |
-          cd Backend/SmartShoppingCart
-          dotnet build --no-restore
+        working-directory: ./SmartShop  # Changed path
+        run: dotnet build --no-restore
       
       - name: Run tests
-        run: |
-          cd Backend/SmartShoppingCart
-          dotnet test --no-build --verbosity normal
+        working-directory: ./SmartShop  # Changed path
+        run: dotnet test --no-build --verbosity normal
         continue-on-error: true
 
   frontend:
@@ -48,11 +45,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'  # Changed from 18 to 20
       
       - name: Install dependencies
+        working-directory: ./SmartCart  # Added - frontend is in SmartCart
         run: npm install
       
       - name: Build frontend
+        working-directory: ./SmartCart  # Added - frontend is in SmartCart
         run: npm run build
         continue-on-error: false
