@@ -1,13 +1,19 @@
 # Smart Shopping Cart
+A smart shopping cart system with barcode scanning camera scanning , real-time calculations, budget tracking, and AI recommendations
 
-A smart shopping cart system that enables customers to scan items using barcode/RFID, view real-time totals, and receive AI-powered recommendations while helping retailers manage inventory efficiently.
+###  Sprint 1-6: Core Features Delivered
+- **Sprint 1:** UI Foundation - Scan interface, reusable components, responsive design
+- **Sprint 2:** Core Scanning - Barcode scanning, product lookup, error handling
+- **Sprint 3:** Camera Integration - Camera-based scanning, enhanced UX
+- **Sprint 4:** Real-time Calculations - Live bill updates, dynamic pricing
+- **Sprint 5:** Budget Management - Budget tracking, exceed alerts
+- **Sprint 6:** AI Features - Smart recommendations, personalized suggestions
 
-## Features (Sprint 1)
-
-- Barcode/RFID scanning functionality
-- Product detail retrieval from database
-- Invalid barcode error handling
-- Basic cart management
+### **Sprint 7+: Upcoming Features**
+- Low-stock alerts for managers (Sprint 7)
+- Automatic inventory updates (Sprint 8)
+- Supplier notifications (Sprint 9)
+- Stock dashboard (Sprint 10)
 
 ## Tech Stack
 
