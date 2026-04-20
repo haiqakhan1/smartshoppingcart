@@ -81,54 +81,68 @@ export default function ScanInterface() {
 
   // Check budget status and show appropriate warnings
   useEffect(() => {
-    if (budget === null || total === 0) return;
+  // Unlock scanning if cart is cleared
+  if (total === 0) {
+    if (scanningLocked) {
+      setScanningLocked(false);
+      setBudgetExceededWarningShown(false);
+      setShowRecommendations(false);
+      setRecommendations([]);
+      setMessage({ type: 'info', text: 'Ready to scan' });
+    }
+    return;
+  }
 
-    if (total === budget && !budgetExceededWarningShown) {
-      setMessage({ type: 'warning', text: 'Budget limit reached!' });
-      setAlertDialog({
-        show: true,
-        title: 'Budget Reached',
-        message: 'You have reached your budget limit exactly. Please proceed carefully with any additional items.',
-        onConfirm: () => {
-          setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
-        },
-        type: 'info'
-      });
-    }
-    else if (total > budget && !budgetExceededWarningShown) {
-      setBudgetExceededWarningShown(true);
-      setMessage({ type: 'warning', text: 'Budget exceeded!' });
-      
-      fetchRecommendations();
-      
-      setAlertDialog({
-        show: true,
-        title: 'Budget Exceeded',
-        message: `Your current total (${formatCurrency(total)}) has exceeded your budget (${formatCurrency(budget)}). Would you like to continue shopping?`,
-        onConfirm: () => {
-          setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
-          setMessage({ type: 'info', text: 'Continue shopping' });
-        },
-        onCancel: () => {
-          setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
-          setScanningLocked(true);
-          setMessage({ type: 'warning', text: 'Scanning locked - Budget exceeded' });
-        },
-        type: 'confirm'
-      });
-    }
-    else if (total < budget && budgetExceededWarningShown) {
+  if (budget === null) return;
+
+  if (total === budget && !budgetExceededWarningShown) {
+    setMessage({ type: 'warning', text: 'Budget limit reached!' });
+    setAlertDialog({
+      show: true,
+      title: 'Budget Reached',
+      message: 'You have reached your budget limit exactly. Please proceed carefully with any additional items.',
+      onConfirm: () => {
+        setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
+      },
+      type: 'info'
+    });
+  }
+  else if (total > budget && !budgetExceededWarningShown) {
+    setBudgetExceededWarningShown(true);
+    setMessage({ type: 'warning', text: 'Budget exceeded!' });
+
+    fetchRecommendations();
+
+    setAlertDialog({
+      show: true,
+      title: 'Budget Exceeded',
+      message: `Your current total (${formatCurrency(total)}) has exceeded your budget (${formatCurrency(budget)}). Would you like to continue shopping?`,
+      onConfirm: () => {
+        setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
+        setMessage({ type: 'info', text: 'Continue shopping' });
+      },
+      onCancel: () => {
+        setAlertDialog({ show: false, title: '', message: '', onConfirm: null, onCancel: null, type: 'confirm' });
+        setScanningLocked(true);
+        setMessage({ type: 'warning', text: 'Scanning locked - Budget exceeded' });
+      },
+      type: 'confirm'
+    });
+  }
+  else if (total < budget) {
+    // Unlock scanning whenever total drops back below budget (item removed / budget increased)
+    if (budgetExceededWarningShown) {
       setBudgetExceededWarningShown(false);
       setShowRecommendations(false);
       setRecommendations([]);
     }
-    else if (total < budget && scanningLocked) {
+    if (scanningLocked) {
       setScanningLocked(false);
       setMessage({ type: 'success', text: 'Scanning unlocked' });
       setTimeout(() => setMessage({ type: 'info', text: 'Ready to scan' }), 1500);
     }
-  }, [total, budget, budgetExceededWarningShown, scanningLocked, cart]);
-
+  }
+}, [total, budget, budgetExceededWarningShown, scanningLocked, cart]);
   const addProductToCart = useCallback((product) => {
     if (scanningLocked) {
       setMessage({ type: 'warning', text: 'Scanning locked - Remove items or change budget' });
@@ -233,6 +247,9 @@ export default function ScanInterface() {
         onBudgetSubmit={(budgetValue) => {
           setBudget(budgetValue);
           setScanningLocked(false);
+          setBudgetExceededWarningShown(false); 
+          setShowRecommendations(false);          
+          setRecommendations([]); 
           setShowBudgetDialog(false);
           setMessage({ type: 'success', text: `Budget set to ${formatCurrency(budgetValue)}` });
           setTimeout(() => setMessage({ type: 'info', text: 'Ready to scan' }), 2000);
