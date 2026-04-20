@@ -37,12 +37,20 @@ export default function CartModule({
           <div className="space-y-2">
             {cart.map((item) => (
               <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                <div className="flex-1">
+              <div className="flex items-center gap-3 flex-1">
+                <img
+                  src={item.imageUrl}
+                  alt={item.name}
+                  className="w-14 h-14 rounded-xl object-cover bg-gray-200 flex-shrink-0"
+                  onError={(e) => { e.target.src = 'https://placehold.co/200x200?text=No+Image'; }}
+                />
+                <div>
                   <div className="font-semibold text-gray-800">{item.name}</div>
                   <div className="text-sm text-gray-500">
                     {formatCurrency(item.price)} × {item.qty} = {formatCurrency(item.price * item.qty)}
                   </div>
                 </div>
+              </div>
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => {
