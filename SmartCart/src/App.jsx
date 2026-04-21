@@ -5,10 +5,23 @@ import AdminLogin from './Components/admin/AdminLogin';
 import AdminDashboard from './Components/admin/AdminDashboard';
 
 function AdminRoute() {
-  const [admin, setAdmin] = useState(null);
+  const [admin, setAdmin] = useState(() => {
+    const saved = sessionStorage.getItem('admin');
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  if (!admin) return <AdminLogin onLogin={setAdmin} />;
-  return <AdminDashboard admin={admin} onLogout={() => setAdmin(null)} />;
+  const handleLogin = (data) => {
+    sessionStorage.setItem('admin', JSON.stringify(data));
+    setAdmin(data);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('admin');
+    setAdmin(null);
+  };
+
+  if (!admin) return <AdminLogin onLogin={handleLogin} />;
+  return <AdminDashboard admin={admin} onLogout={handleLogout} />;
 }
 
 function App() {
