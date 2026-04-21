@@ -166,6 +166,7 @@ export default function ScanInterface() {
   }, [scanningLocked]);
 
   async function fetchProductByBarcode(barcode) {
+    console.log('Fetching:', `${process.env.REACT_APP_API_URL||'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azurewebsites.net'}/api/products/barcode/${barcode}`);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL||'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azurewebsites.net'}/api/products/barcode/${barcode}`);
       if (!res.ok) throw new Error('Product not found');
