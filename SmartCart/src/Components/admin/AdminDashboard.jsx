@@ -6,7 +6,9 @@ export default function AdminDashboard({ admin, onLogout }) {
   const [stats, setStats] = useState(null);
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(() => {
+  return sessionStorage.getItem('activeTab') || 'overview';
+});
 
   const fetchData = async () => {
     setLoading(true);
@@ -66,7 +68,10 @@ export default function AdminDashboard({ admin, onLogout }) {
           {['overview', 'alerts'].map(tab => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                sessionStorage.setItem('activeTab', tab);
+              }}
               className={`px-5 py-2 rounded-full text-sm font-medium transition capitalize ${
                 activeTab === tab
                   ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white'
@@ -76,12 +81,6 @@ export default function AdminDashboard({ admin, onLogout }) {
               {tab === 'overview' ? '📊 Overview' : '🔔 Alerts'}
             </button>
           ))}
-          <button
-            onClick={fetchData}
-            className="ml-auto px-4 py-2 bg-white rounded-full text-sm text-gray-600 hover:bg-gray-50 transition"
-          >
-            🔄 Refresh
-          </button>
         </div>
 
         {loading ? (
