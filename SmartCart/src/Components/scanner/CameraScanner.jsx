@@ -58,7 +58,7 @@ export default function CameraScanner({
 
   async function fetchProductByBarcode(barcode) {
     try {
-      const res = await fetch(`http://localhost:7005/api/products/barcode/${barcode}`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products/barcode/${barcode}`);
       if (!res.ok) throw new Error('Product not found');
       const product = await res.json();
       onProductScanned(product);
