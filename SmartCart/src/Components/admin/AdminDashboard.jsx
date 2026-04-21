@@ -48,7 +48,7 @@ export default function AdminDashboard({ admin, onLogout }) {
             <span className="text-white text-lg">🛒</span>
           </div>
           <div>
-            <h1 className="font-bold text-gray-800">SmartShop Admin</h1>
+            <h1 className="font-bold text-gray-800">SmartCart Admin</h1>
             <p className="text-xs text-gray-500">Welcome, {admin?.username}</p>
           </div>
         </div>
