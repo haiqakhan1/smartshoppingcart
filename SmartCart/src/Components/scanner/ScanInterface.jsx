@@ -59,7 +59,7 @@ export default function ScanInterface() {
     
     for (const item of cart) {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products/recommend/${item.category}/${item.subcategory}/${item.price}`);
+        const res = await fetch(`${process.env.REACT_APP_API_URL||'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azurewebsites.net'}/api/products/recommend/${item.category}/${item.subcategory}/${item.price}`);
         if (res.ok) {
           const data = await res.json();
           allRecommendations.push(...data.map(rec => ({
