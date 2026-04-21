@@ -167,7 +167,7 @@ export default function ScanInterface() {
 
   async function fetchProductByBarcode(barcode) {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products/barcode/${barcode}`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL||'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azurewebsites.net'}/api/products/barcode/${barcode}`);
       if (!res.ok) throw new Error('Product not found');
       const product = await res.json();
       addProductToCart(product);
