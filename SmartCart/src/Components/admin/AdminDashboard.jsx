@@ -5,7 +5,7 @@ const API_URL = 'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azureweb
 
 export default function AdminDashboard({ admin, onLogout }) {
   const [stats, setStats] = useState(null);
-  const [lowStock, setLowStock] = useState([]);
+  const [lowStock, setLowStock] = useState({ items: [], threshold: 10 });
   const [loading, setLoading] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState(null);
   const [activeTab, setActiveTab] = useState(() => {
