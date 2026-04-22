@@ -11,6 +11,18 @@ export default function AdminLogin({ onLogin }) {
   const handleSubmit = async () => {
     setLoading(true);
     setError('');
+
+    if (!form.email.endsWith('@smartshoppingcart.com')) {
+    setError('Email must be a @smartshoppingcart.com address');
+    setLoading(false);
+    return;
+    }
+
+    if (form.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      setLoading(false);
+      return;
+    }
     try {
       const endpoint = isSignup ? '/api/admin/signup' : '/api/admin/login';
       const body = isSignup ? form : { email: form.email, password: form.password };
