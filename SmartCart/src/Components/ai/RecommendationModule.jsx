@@ -31,7 +31,13 @@ export default function RecommendationModule({
               key={idx} 
               className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border-2 border-green-200 hover:border-green-400 transition-all"
             >
-              <div className="flex justify-between items-start mb-2">
+              <div className="flex gap-3 items-start mb-2">
+                <img
+                  src={rec.imageUrl}
+                  alt={rec.name}
+                  className="w-16 h-16 rounded-xl object-cover bg-gray-100"
+                  onError={e => { e.target.src = 'https://placehold.co/200x200?text=' + rec.name; }}
+                />
                 <div className="flex-1">
                   <p className="text-xs text-gray-600 mb-1">
                     Alternative for: <span className="font-semibold">{rec.originalItem}</span>
