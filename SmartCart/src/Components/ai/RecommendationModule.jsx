@@ -38,6 +38,7 @@ export default function RecommendationModule({
                   className="w-16 h-16 rounded-xl object-cover bg-gray-100"
                   onError={e => { e.target.src = 'https://placehold.co/200x200?text=' + rec.name; }}
                 />
+                <p>{rec.imageUrl}</p>
                 <div className="flex-1">
                   <p className="text-xs text-gray-600 mb-1">
                     Alternative for: <span className="font-semibold">{rec.originalItem}</span>
