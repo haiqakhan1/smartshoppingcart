@@ -6,6 +6,7 @@ export default function AdminDashboard({ admin, onLogout }) {
   const [stats, setStats] = useState(null);
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedCategory, setExpandedCategory] = useState(null);
   const [activeTab, setActiveTab] = useState(() => {
   return sessionStorage.getItem('activeTab') || 'overview';
 });
@@ -143,43 +144,96 @@ export default function AdminDashboard({ admin, onLogout }) {
             )}
 
             {activeTab === 'alerts' && (
-              <div className="bg-white rounded-2xl shadow-sm p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="font-semibold text-gray-800">
-                    🔔 Low Stock Alerts
-                    <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-sm">
-                      {lowStock.items?.length || 0}
-                    </span>
-                  </h2>
-                  <p className="text-sm text-gray-500">Threshold: ≤ {lowStock.threshold} units</p>
-                </div>
-
-                {lowStock.items?.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-4xl mb-3">✅</p>
-                    <p className="text-gray-500">All products are well stocked!</p>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {lowStock.items?.map((item) => (
-                      <div key={item.id} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-3 h-3 rounded-full ${getStatusDot(item.status)}`}></div>
-                          <div>
-                            <p className="font-medium text-gray-800">{item.name}</p>
-                            <p className="text-sm text-gray-500">{item.brand} · {item.category} · {item.subcategory}</p>
-                            <p className="text-xs text-gray-400">Barcode: {item.barcode}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
-                            {item.status}
-                          </span>
-                          <p className="text-sm font-bold text-gray-800 mt-1">{item.quantity} units left</p>
-                        </div>
+              <div>
+                {loading ? null : (
+                  <>
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="font-semibold text-gray-800">
+                        🔔 Low Stock Alerts
+                        <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-sm">
+                          {lowStock.items?.length || 0}
+                        </span>
+                      </h2>
+                      <p className="text-sm text-gray-500">Threshold: ≤ {lowStock.threshold} units</p>
+                    </div>
+            
+                    {lowStock.items?.length === 0 ? (
+                      <div className="text-center py-12">
+                        <p className="text-4xl mb-3">✅</p>
+                        <p className="text-gray-500">All products are well stocked!</p>
                       </div>
-                    ))}
-                  </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {Object.entries(
+                          lowStock.items?.reduce((acc, item) => {
+                            if (!acc[item.category]) acc[item.category] = [];
+                            acc[item.category].push(item);
+                            return acc;
+                          }, {})
+                        ).map(([category, items]) => (
+                          <div key={category} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                            <button
+                              onClick={() => setExpandedCategory(expandedCategory === category ? null : category)}
+                              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                  <span className="text-white text-sm">📦</span>
+                                </div>
+                                <div className="text-left">
+                                  <p className="font-semibold text-gray-800">{category}</p>
+                                  <p className="text-sm text-gray-500">{items.length} item{items.length > 1 ? 's' : ''} need attention</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {items.some(i => i.status === 'Out of Stock') && (
+                                  <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-medium">Out of Stock</span>
+                                )}
+                                {items.some(i => i.status === 'Critical') && (
+                                  <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">Critical</span>
+                                )}
+                                {items.some(i => i.status === 'Low') && (
+                                  <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">Low</span>
+                                )}
+                                <span className="text-gray-400">{expandedCategory === category ? '▲' : '▼'}</span>
+                              </div>
+                            </button>
+            
+                            {expandedCategory === category && (
+                              <div className="border-t border-gray-100 divide-y divide-gray-50">
+                                {items
+                                  .sort((a, b) => a.quantity - b.quantity)
+                                  .map(item => (
+                                    <div key={item.id} className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                                      <div className="flex items-center gap-3">
+                                        <div className={`w-2 h-2 rounded-full ${
+                                          item.status === 'Out of Stock' ? 'bg-red-500' :
+                                          item.status === 'Critical' ? 'bg-orange-500' : 'bg-yellow-500'
+                                        }`}></div>
+                                        <div>
+                                          <p className="font-medium text-gray-800 text-sm">{item.name}</p>
+                                          <p className="text-xs text-gray-500">{item.brand} · {item.subcategory}</p>
+                                        </div>
+                                      </div>
+                                      <div className="text-right">
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                          item.status === 'Out of Stock' ? 'bg-red-100 text-red-700' :
+                                          item.status === 'Critical' ? 'bg-orange-100 text-orange-700' :
+                                          'bg-yellow-100 text-yellow-700'
+                                        }`}>
+                                          {item.status}
+                                        </span>
+                                        <p className="text-sm font-bold text-gray-800 mt-1">{item.quantity} units</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
