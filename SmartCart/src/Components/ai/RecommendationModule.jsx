@@ -39,11 +39,11 @@ export default function RecommendationModule({
                   onError={e => { e.target.src = 'https://placehold.co/200x200?text=' + rec.name; }}
                 />
                 <div className="flex-1">
-                  <p className="text-xs text-gray-600 mb-1">
+                  <p className="text-xs text-gray-800 mb-1 font-medium">
                     Alternative for: <span className="font-semibold">{rec.originalItem}</span>
                   </p>
                   <h4 className="font-bold text-gray-800 text-lg">{rec.name}</h4>
-                  <p className="text-sm text-gray-600">{rec.brand}</p>
+                  <p className="text-sm text-gray-700 font-medium">{rec.brand}</p>
                 </div>
                 <div className="flex items-center gap-1 bg-yellow-100 px-2 py-1 rounded-lg">
                   <Star className="w-4 h-4 text-yellow-600 fill-yellow-600" />
