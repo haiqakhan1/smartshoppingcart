@@ -30,10 +30,14 @@ export default function ScanInterface() {
   const barcodeInputRef = useRef(null);
   // Ref for beep sound
   const beepSound = useRef(null);
+  const scanningLockedRef = useRef(false);
 
   useEffect(() => {
     beepSound.current = new Audio('/sounds/beep.wav');
   }, []);
+  useEffect(() => {
+    scanningLockedRef.current = scanningLocked;
+  }, [scanningLocked]);
   
   // Auto-focus on hidden input so barcode scanner works without clicking
   useEffect(() => {
@@ -144,7 +148,7 @@ export default function ScanInterface() {
   }
 }, [total, budget, budgetExceededWarningShown, scanningLocked, cart]);
   const addProductToCart = useCallback((product) => {
-    if (scanningLocked) {
+    if (scanningLockedRef.current) {
       setMessage({ type: 'warning', text: 'Scanning locked - Remove items or change budget' });
       setTimeout(() => setMessage({ type: 'warning', text: 'Scanning locked - Budget exceeded' }), 2000);
       return;
