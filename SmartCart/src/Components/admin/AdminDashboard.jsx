@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const API_URL = 'https://smartshop-api-c3g4gefbbrakcwhs.centralindia-01.azurewebsites.net';
 
@@ -156,7 +157,39 @@ export default function AdminDashboard({ admin, onLogout }) {
                       </h2>
                       <p className="text-sm text-gray-500">Threshold: ≤ {lowStock.threshold} units</p>
                     </div>
-            
+                    {lowStock.items?.length > 0 && (
+                      <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                        <h3 className="font-semibold text-gray-800 mb-4">📊 Categories Needing Attention</h3>
+                        <ResponsiveContainer width="100%" height={250}>
+                          <BarChart
+                            data={Object.entries(
+                              lowStock.items?.reduce((acc, item) => {
+                                if (!acc[item.category]) acc[item.category] = 0;
+                                acc[item.category]++;
+                                return acc;
+                              }, {})
+                            ).map(([category, count]) => ({ category, count }))
+                              .sort((a, b) => b.count - a.count)}
+                            margin={{ top: 5, right: 20, left: 0, bottom: 60 }}
+                          >
+                            <XAxis dataKey="category" angle={-35} textAnchor="end" tick={{ fontSize: 12 }} />
+                            <YAxis tick={{ fontSize: 12 }} />
+                            <Tooltip formatter={(value) => [`${value} items`, 'Low Stock']} />
+                            <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                              {Object.entries(
+                                lowStock.items?.reduce((acc, item) => {
+                                  if (!acc[item.category]) acc[item.category] = 0;
+                                  acc[item.category]++;
+                                  return acc;
+                                }, {})
+                              ).map(([_, __], index) => (
+                                <Cell key={index} fill={index % 3 === 0 ? '#6366f1' : index % 3 === 1 ? '#a855f7' : '#ec4899'} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    )}
                     {lowStock.items?.length === 0 ? (
                       <div className="text-center py-12">
                         <p className="text-4xl mb-3">✅</p>
