@@ -348,6 +348,7 @@ export default function ScanInterface() {
           }}
           onProductScanned={addProductToCart}
           beepSound={beepSound}
+          scanningLocked={scanningLocked}
         />
 
         {/* Cart Module */}
