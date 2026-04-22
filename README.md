@@ -4,20 +4,6 @@
 
 ---
 
-## Table of Contents
-
-- [Live Deployment](#live-deployment)
-- [Sprints Completed](#sprints-completed)
-- [Tech Stack](#tech-stack)
-- [Cloud Deployment](#cloud-deployment)
-- [CI/CD Pipeline](#cicd-pipeline)
-- [Prerequisites](#prerequisites)
-- [Local Setup](#local-setup)
-- [Database Setup](#database-setup)
-- [Testing](#testing)
-- [Repository](#repository)
-
----
 
 ## Live Deployment
 
@@ -34,18 +20,18 @@
 
 ### Sprint 1–6: Core Features
 
-- **Sprint 1 — UI Foundation:** Scan interface, reusable components, responsive design
-- **Sprint 2 — Core Scanning:** Barcode scanning, product lookup, error handling
-- **Sprint 3 — Camera Integration:** Camera-based scanning, enhanced UX
-- **Sprint 4 — Real-time Calculations:** Live bill updates, dynamic pricing
-- **Sprint 5 — Budget Management:** Budget tracking, exceed alerts
-- **Sprint 6 — AI Features:** Smart recommendations, personalized suggestions
+- **Sprint 1 :** Scan interface, reusable components, responsive design
+- **Sprint 2 :** Barcode scanning, product lookup, error handling
+- **Sprint 3 :** Camera-based scanning, enhanced UX
+- **Sprint 4 :** Live bill updates, dynamic pricing
+- **Sprint 5 :** Budget tracking, exceed alerts
+- **Sprint 6 :** Smart recommendations, personalized suggestions
 
 ### Sprint 7–9: Admin and Inventory Features
 
-- **Sprint 7 — Admin Dashboard:** Stock monitoring, low-stock alerts for managers
-- **Sprint 8 — Automatic Inventory Updates:** Real-time stock level adjustments
-- **Sprint 9 — Stock Dashboard:** Full inventory overview with visual analytics
+- **Sprint 7 :** Stock monitoring, low-stock alerts for managers
+- **Sprint 8 :** Real-time stock level adjustments
+- **Sprint 9 :** Full inventory overview with visual analytics
 
 ---
 
